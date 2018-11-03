@@ -131,13 +131,25 @@ ui <- fluidPage(
                               "Location" = "Location"), 
                   selected = "All"))
       ),
+      
       conditionalPanel(
         'input.dataset==="BasicQuestion"',
       wellPanel(
       sliderInput(inputId ="Range", label ="Range:",
                   min = 0, max = 100,
                   value = 100))
+      ),
+      
+      conditionalPanel(
+        'input.dataset==="BasicQuestion"',
+        wellPanel(
+          actionButton("apply","Who did this amazing data visualization?"),
+          hr(),
+          textOutput(outputId = "amazing")
+        )
       )
+      
+      
     ),
     
     mainPanel = (
@@ -149,10 +161,11 @@ ui <- fluidPage(
                   hr(),
                   DT::dataTableOutput(outputId = "table21"),
                   hr(),
-                  htmlOutput(outputId = "sample_info"),
-                  hr(),
                   h3("Corresponding Bar Chart"),
-                  plotOutput(outputId = "graph")
+                  hr(),
+                  plotOutput(outputId = "graph"),
+                  hr(),
+                  htmlOutput(outputId = "sample_info")
                  )),
         tabPanel("OriginalNews",
                 tags$iframe(style="height:800px; width:100%; scrolling=yes",
@@ -161,7 +174,6 @@ ui <- fluidPage(
       ),
     position = "right"
     )
-  
 )
 
 server <-function(input, output){
@@ -173,7 +185,7 @@ server <-function(input, output){
   VarName=reactive(
     VariableName[which(VariableName[,2]==input$BasicInformation),1])
   
-  output$sample_info <- renderUI({
+  output$sample_info <-renderUI({
     if (input$BasicInformation == "All"){
       paste("Note:",nrow(data), "respondents took participate in this survey and provided valid answers.")
     }
@@ -189,6 +201,7 @@ server <-function(input, output){
             "respondents choose '", input$Howoften, "' The table below shows the frequencies of between", input$Howoften, "and '", VarName(),"'.")
     }
   })
+  
   
   output$table21 <- DT::renderDataTable({
     
@@ -230,6 +243,11 @@ server <-function(input, output){
       g 
     }
   )
+  
+  observeEvent(input$apply,
+               {output$amazing<-renderText({"Her name is Yuke Fu."})})
+  
 }
 
 shinyApp(ui = ui, server = server)
+
