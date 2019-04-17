@@ -1,4 +1,4 @@
-data=read.csv("/Users/yukifu/Desktop/sleeping-alone-data/sleeping-alone-data-new.csv")
+data=read.csv("https://raw.githubusercontent.com/yukefu/stat6289-project1/master/sleeping-alone-data-new.csv")
 summary(data)
 library(tidyr)
 library(shiny)
