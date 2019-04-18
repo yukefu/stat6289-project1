@@ -165,7 +165,8 @@ ui <- fluidPage(
                   hr(),
                   plotOutput(outputId = "graph"),
                   hr(),
-                  htmlOutput(outputId = "sample_info")
+                  htmlOutput(outputId = "sample_info"),
+                  hr(),
                  )),
         tabPanel("OriginalNews",
                 tags$iframe(style="height:800px; width:100%; scrolling=yes",
